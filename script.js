@@ -4,6 +4,7 @@ const operators = document.getElementsByClassName('operators')
 const equalsButton = document.getElementById('equalsBtn')
 const deleteButton = document.getElementById('deleteBtn')
 const clearButton = document.getElementById('clearBtn')
+const pointButton = document.getElementById('pointBtn')
 
 let shouldResetScreen = false
 let currentOperator = null
@@ -16,7 +17,7 @@ Array.prototype.forEach.call(numbers, (button) => {
     button.addEventListener("click", () => {
         if (shouldResetScreen) { resetScreen() }
         showDisplay.textContent += button.innerText
-        sub = parseInt(showDisplay.textContent, 10)
+        sub = parseFloat(showDisplay.textContent)
         console.log(sub)
     })
 })
@@ -32,6 +33,7 @@ Array.prototype.forEach.call(operators, (button) => {
 
 deleteButton.addEventListener('click', deleteNumber)
 clearButton.addEventListener('click', clear)
+pointButton.addEventListener('click', appendPoint)
 
 if (equalsButton) {
     equalsButton.addEventListener('click', evaluate)
@@ -41,7 +43,7 @@ function deleteNumber() {
     showDisplay.textContent = showDisplay.textContent
         .toString()
         .slice(0, -1)
-    sub = parseInt(showDisplay.textContent, 10)
+    sub = parseFloat(showDisplay.textContent)
 }
 
 function clear() {
@@ -51,6 +53,14 @@ function clear() {
     currentOperator = null
     sub = 0
 }
+
+function appendPoint() {
+    if (shouldResetScreen) resetScreen()
+    if (showDisplay.textContent === '')
+      showDisplay.textContent = '0'
+    if (showDisplay.textContent.includes('.')) return
+    showDisplay.textContent += '.'
+  }
 
 function evaluate() {
     if (currentOperator === null || shouldResetScreen) return
